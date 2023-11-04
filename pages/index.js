@@ -15,7 +15,7 @@ export default function Home() {
       throw new Error(response.statusText);
     }
     const { hash } = await response.json();
-    setResult([...result, `${process.env.BASE_URL}${hash}`]);
+    setResult([...result, `${process.env.NEXT_BASE_URL}${hash}`]);
   };
 
   const handleChange = (event) => {
