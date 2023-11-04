@@ -7,7 +7,8 @@ export default async function handler(req, res) {
   );
   const { link } = req.query;
   let hash = crypto.randomUUID().toString();
-  hash = hash.substring(0, 15);
+  hash = hash.substring(0, 8);
+  hash = "es" + hash;
 
   const { error } = await supabase.from("links").insert([{ url: link, hash }]);
   if (error) {

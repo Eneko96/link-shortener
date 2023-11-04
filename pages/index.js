@@ -4,6 +4,7 @@ import Layout from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 
 export default function Home() {
+  const [hasUrl, setHasUrl] = useState(false);
   const [result, setResult] = useState([]);
 
   const handleSubmit = async (event) => {
@@ -14,7 +15,17 @@ export default function Home() {
       throw new Error(response.statusText);
     }
     const { hash } = await response.json();
-    setResult([...result, `http://localhost:3000/api/goTo?hash=${hash}`]);
+    setResult([...result, `http://localhost:3000/${hash}`]);
+  };
+
+  const handleChange = (event) => {
+    const url = event.target.value;
+    const isUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
+    if (isUrl) {
+      setHasUrl(true);
+    } else {
+      setHasUrl(false);
+    }
   };
 
   return (
@@ -24,9 +35,21 @@ export default function Home() {
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Shorten the link</h2>
-        <form onSubmit={handleSubmit}>
-          <input type="text" id="url" name="url" />
-          <button type="submit">Shorten</button>
+        <form onSubmit={handleSubmit} className={`${utilStyles.form}`}>
+          <input
+            className={`${utilStyles.input}`}
+            type="text"
+            id="url"
+            name="url"
+            onChange={handleChange}
+          />
+          <button
+            className={`${utilStyles.submit}`}
+            disabled={!hasUrl}
+            type="submit"
+          >
+            Shorten
+          </button>
         </form>
       </section>
       <section className={utilStyles.headingMd}>
@@ -34,7 +57,7 @@ export default function Home() {
         <ul className={utilStyles.list}>
           <li>Link 1</li>
           {result.map((link) => (
-            <li>
+            <li key={`link-${link}`}>
               <a target="_blank" href={link}>
                 {link}
               </a>
