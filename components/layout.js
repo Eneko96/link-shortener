@@ -6,11 +6,11 @@ import Link from "next/link";
 import AuthBtn from "./login-btn";
 import { useSession } from "next-auth/react";
 
-const name = "Hi Eneko";
 export const siteTitle = "Next.js Sample Website";
 
 export default function Layout({ children, home }) {
   const { data: session } = useSession();
+  const name = session?.user?.name || "Anonymous";
   return (
     <div className={styles.container}>
       <Head>
@@ -30,7 +30,7 @@ export default function Layout({ children, home }) {
           <>
             <Image
               priority
-              src={session?.user?.image || "https://github.com/Eneko96.png"}
+              src={session?.user?.image || "/placeholder.png"}
               className={utilStyles.borderCircle}
               height={144}
               width={144}
