@@ -88,3 +88,25 @@
 .lightText {
   color: #666;
 }
+
+.login {
+  border-radius: 14px;
+  height: 30px;
+  padding: 0 31px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 700;
+  border: 0;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  transition: 0.2s ease-in-out;
+  transition-property: border, background, box-shadow;
+}
+
+.login:hover {
+  --button-box-shadow: 0 14px 14px -6px #000000a3;
+  --button-default-box-shadow: 0 14px 14px -6px #000000a3;
+  background-color: rgb(207, 214, 230);
+  box-shadow: var(--button-box-shadow, var(--button-default-box-shadow, none));
+}
