@@ -26,9 +26,7 @@ async function getData(user_id) {
 
 export const getServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
-  console.log("this is the session", session);
   const data = await getData(session?.user?.email ?? "anon");
-  console.log(data);
   return {
     props: {
       data,
@@ -38,7 +36,6 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Home({ data, url }) {
-  console.log("server side props", data);
   const { data: session } = useSession();
   const [hasUrl, setHasUrl] = useState(false);
   const [result, setResult] = useState([]);
