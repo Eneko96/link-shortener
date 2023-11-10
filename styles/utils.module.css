@@ -42,8 +42,8 @@
 }
 
 .submit {
-  background-color: #333;
-  color: #fff;
+  background-color: rgb(207, 214, 230);
+  color: black;
   border: 0;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
@@ -53,7 +53,8 @@
 }
 
 .submit:disabled {
-  background-color: #999;
+  background-color: #eee;
+  color: #aaa;
 }
 
 .headingMd {

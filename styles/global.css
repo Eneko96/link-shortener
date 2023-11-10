@@ -1,5 +1,6 @@
 html,
 body {
+  background-color: #0e1217;
   padding: 0;
   margin: 0;
   font-family:
@@ -16,6 +17,7 @@ body {
     sans-serif;
   line-height: 1.6;
   font-size: 18px;
+  color: white;
 }
 
 * {
@@ -34,4 +36,16 @@ a:hover {
 img {
   max-width: 100%;
   display: block;
+}
+
+h1 {
+  color: transparent;
+  --to: #ce3df3;
+  --from: #fc538d;
+  background-image: linear-gradient(to right, var(--from), var(--to));
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 56px;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
