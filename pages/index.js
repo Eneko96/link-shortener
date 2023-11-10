@@ -2,8 +2,30 @@ import { useState } from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
+import { getSession, useSession } from "next-auth/react";
+import { createClient } from "@supabase/supabase-js";
+
+async function getData() {
+  const session = await getSession();
+  const supabase = createClient(
+    process.env.NEXT_SUPABASE_URL,
+    process.env.NEXT_SUPABASE_KEY,
+  );
+  const { data, error } = await supabase
+    .from("links")
+    .select("*")
+    .eq("user_id", session.user.id);
+  if (error) {
+    throw new Error(error);
+  }
+  return data;
+}
 
 export default function Home() {
+  const data = getData();
+  console.log(data);
+  const { data: session } = useSession();
+  console.log(session);
   const [hasUrl, setHasUrl] = useState(false);
   const [result, setResult] = useState([]);
 
@@ -55,7 +77,7 @@ export default function Home() {
       </section>
       <section className={utilStyles.headingMd}>
         <h2>Shortened links</h2>
-        <ul className={utilStyles.list}>
+        {/* <ul className={utilStyles.list}>
           <li>Link 1</li>
           {result.map((link) => (
             <li key={`link-${link}`}>
@@ -63,8 +85,7 @@ export default function Home() {
                 {link}
               </a>
             </li>
-          ))}
-        </ul>
+          ))}*/}
       </section>
     </Layout>
   );

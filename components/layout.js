@@ -3,19 +3,19 @@ import Image from "next/image";
 import styles from "./layout.module.css";
 import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
+import AuthBtn from "./login-btn";
+import { useSession } from "next-auth/react";
 
 const name = "Hi Eneko";
 export const siteTitle = "Next.js Sample Website";
 
 export default function Layout({ children, home }) {
+  const { data: session } = useSession();
   return (
     <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Learn how to build a personal website using Next.js"
-        />
+        <meta name="description" content="Just a small link shortener" />
         <meta
           property="og:image"
           content={`https://og-image.vercel.app/${encodeURI(
@@ -30,13 +30,14 @@ export default function Layout({ children, home }) {
           <>
             <Image
               priority
-              src="https://github.com/Eneko96.png"
+              src={session?.user?.image || "https://github.com/Eneko96.png"}
               className={utilStyles.borderCircle}
               height={144}
               width={144}
               alt={name}
             />
             <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <AuthBtn />
           </>
         ) : (
           <>
