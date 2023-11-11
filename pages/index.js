@@ -1,4 +1,13 @@
 import { useState } from "react";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../components/ui/hover-card";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { Separator } from "../components/ui/separator";
 import Head from "next/head";
 import Layout from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
@@ -75,42 +84,47 @@ export default function Home({ data, url }) {
           Since you're not signed in, this link will only last for 24 hours!!
         </p>
         <form onSubmit={handleSubmit} className={`${utilStyles.form}`}>
-          <input
+          <Input
             className={`${utilStyles.input}`}
             type="text"
             id="url"
             name="url"
             onChange={handleChange}
           />
-          <button
-            className={`${utilStyles.submit}`}
-            disabled={!hasUrl}
-            type="submit"
-          >
+          <Button disabled={!hasUrl} type="submit">
             Shorten
-          </button>
+          </Button>
         </form>
       </section>
       <section className={utilStyles.headingMd}>
-        <h2>Shortened links</h2>
-        <ul className={utilStyles.list}>
-          {data.map(({ hash }) => {
-            return (
-              <li key={`link-${hash}`}>
-                <a target="_blank" href={`${hash}`}>
-                  {url}/{hash}
-                </a>
-              </li>
-            );
-          })}
-          {result.map((link) => (
-            <li key={`link-${link}`}>
+        <ScrollArea className="h-72 w-48 rounded-md border max-w-48">
+          <div className="p-4">
+            <h4 className="mb-4 text-sm font-medium leading-none">
+              Shortened links
+            </h4>
+            {data.map(({ hash, url: goTo }) => {
+              return (
+                <HoverCard>
+                  <HoverCardTrigger asChild>
+                    <Button variant="link">
+                      {url}/{hash}
+                    </Button>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-80">
+                    <div className="flex flex-col items-center justify-center">
+                      <p>to {goTo}</p>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              );
+            })}
+            {result.map((link) => (
               <a target="_blank" href={link}>
                 {link}
               </a>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </ScrollArea>
       </section>
     </Layout>
   );
