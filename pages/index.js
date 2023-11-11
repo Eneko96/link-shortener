@@ -95,6 +95,7 @@ export default function Home({ data, url }) {
         <h2>Shortened links</h2>
         <ul className={utilStyles.list}>
           {data.map(({ hash }) => {
+            console.log(url, hash);
             return (
               <li key={`link-${hash}`}>
                 <a target="_blank" href={`${url}/${hash}`}>
