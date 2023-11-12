@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import {
@@ -59,8 +59,7 @@ export default function Home({ data, url }) {
       throw new Error(response.statusText);
     }
     const { hash } = await response.json();
-    const baseUrl = window.location.href;
-    setResult([...result, { hash: `${baseUrl}${hash}` }]);
+    setResult([...result, { hash }]);
   };
 
   const handleChange = (event) => {
@@ -87,6 +86,13 @@ export default function Home({ data, url }) {
     }
   };
 
+  useEffect(() => {
+    const ls = localStorage.getItem("links");
+    if (ls) {
+      setResult(JSON.parse(ls));
+    }
+  }, []);
+
   return (
     <Layout home>
       <Head>
@@ -94,9 +100,11 @@ export default function Home({ data, url }) {
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Shorten the link</h2>
-        <p>
-          Since you're not signed in, this link will only last for 24 hours!!
-        </p>
+        {!session && (
+          <p>
+            Since you're not signed in, this link will only last for 24 hours!!
+          </p>
+        )}
         <form onSubmit={handleSubmit} className={`${utilStyles.form}`}>
           <Input
             className={`${utilStyles.input}`}
@@ -110,61 +118,63 @@ export default function Home({ data, url }) {
           </Button>
         </form>
       </section>
-      <section className={utilStyles.headingMdlist}>
-        <ScrollArea className="rounded-md border border-red">
-          <div className="p-4">
-            <h4 className="mb-4 text-center text-sm font-medium leading-none">
-              Shortened links
-            </h4>
-            {[...data, ...result].map(({ hash }) => {
-              return (
-                <>
-                  <HoverCard key={hash}>
-                    <HoverCardTrigger asChild>
-                      <Button
-                        variant="link"
-                        data-redirect={hash}
-                        onClick={handleRedirect}
-                      >
-                        {url}/{hash}
-                      </Button>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="">
-                      <div>
-                        <div className="space-y-1">
-                          <h4 className="text-sm font-medium leading-none">
-                            Link to
-                          </h4>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            You didn't add any description
-                          </p>
-                        </div>
-                        <Separator className="my-4" />
-                        <div className="flex h-5 items-center my-2 justify-around space-x-4 text-sm">
-                          <Button
-                            variant="link"
-                            onClick={handleOptions("copy", hash)}
-                          >
-                            Copy
-                          </Button>
-                          <Separator orientation="vertical" />
-                          <Button
-                            variant="link"
-                            onClick={handleOptions("redirect", hash)}
-                          >
-                            Redirect
-                          </Button>
-                        </div>
-                      </div>{" "}
-                    </HoverCardContent>
-                  </HoverCard>
-                  <Separator />
-                </>
-              );
-            })}
-          </div>
-        </ScrollArea>
-      </section>
+      {[...data, ...result].length > 0 && (
+        <section className={utilStyles.headingMdlist}>
+          <ScrollArea className="rounded-md border border-red">
+            <div className="p-4">
+              <h4 className="mb-4 text-center text-sm font-medium leading-none">
+                Shortened links
+              </h4>
+              {[...data, ...result].map(({ hash }) => {
+                return (
+                  <div key={hash}>
+                    <HoverCard>
+                      <HoverCardTrigger asChild>
+                        <Button
+                          variant="link"
+                          data-redirect={hash}
+                          onClick={handleRedirect}
+                        >
+                          {url}/{hash}
+                        </Button>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="">
+                        <div>
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-medium leading-none">
+                              Link to
+                            </h4>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              You didn't add any description
+                            </p>
+                          </div>
+                          <Separator className="my-4" />
+                          <div className="flex h-5 items-center my-2 justify-around space-x-4 text-sm">
+                            <Button
+                              variant="link"
+                              onClick={handleOptions("copy", hash)}
+                            >
+                              Copy
+                            </Button>
+                            <Separator orientation="vertical" />
+                            <Button
+                              variant="link"
+                              onClick={handleOptions("redirect", hash)}
+                            >
+                              Redirect
+                            </Button>
+                          </div>
+                        </div>{" "}
+                      </HoverCardContent>
+                    </HoverCard>
+                    <Separator />
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollArea>
+        </section>
+      )}
     </Layout>
   );
 }
