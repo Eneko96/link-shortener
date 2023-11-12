@@ -60,7 +60,7 @@ export default function Home({ data, url }) {
     }
     const { hash } = await response.json();
     const baseUrl = window.location.href;
-    setResult([...result, `${baseUrl}${hash}`]);
+    setResult([...result, { hash: `${baseUrl}${hash}` }]);
   };
 
   const handleChange = (event) => {
@@ -116,7 +116,7 @@ export default function Home({ data, url }) {
             <h4 className="mb-4 text-center text-sm font-medium leading-none">
               Shortened links
             </h4>
-            {data.map(({ hash }) => {
+            {[...data, ...result].map(({ hash }) => {
               return (
                 <>
                   <HoverCard key={hash}>
@@ -162,11 +162,6 @@ export default function Home({ data, url }) {
                 </>
               );
             })}
-            {result.map((link) => (
-              <a target="_blank" href={link}>
-                {link}
-              </a>
-            ))}
           </div>
         </ScrollArea>
       </section>
