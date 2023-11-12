@@ -78,6 +78,15 @@ export default function Home({ data, url }) {
     window.open(hash, "_blank");
   };
 
+  const handleOptions = (type, hash) => () => {
+    if (type === "copy") {
+      navigator.clipboard.writeText(`${url}/${hash}`);
+    }
+    if (type === "redirect") {
+      window.open(hash, "_blank");
+    }
+  };
+
   return (
     <Layout home>
       <Head>
@@ -101,13 +110,13 @@ export default function Home({ data, url }) {
           </Button>
         </form>
       </section>
-      <section>
+      <section className={utilStyles.headingMdlist}>
         <ScrollArea className="rounded-md border border-red">
           <div className="p-4">
             <h4 className="mb-4 text-center text-sm font-medium leading-none">
               Shortened links
             </h4>
-            {data.map(({ hash, url: goTo }) => {
+            {data.map(({ hash }) => {
               return (
                 <>
                   <HoverCard key={hash}>
@@ -121,9 +130,32 @@ export default function Home({ data, url }) {
                       </Button>
                     </HoverCardTrigger>
                     <HoverCardContent className="">
-                      <div className="flex flex-col items-center justify-center">
-                        <p>to {goTo}</p>
-                      </div>
+                      <div>
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-medium leading-none">
+                            Link to
+                          </h4>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            You didn't add any description
+                          </p>
+                        </div>
+                        <Separator className="my-4" />
+                        <div className="flex h-5 items-center my-2 justify-around space-x-4 text-sm">
+                          <Button
+                            variant="link"
+                            onClick={handleOptions("copy", hash)}
+                          >
+                            Copy
+                          </Button>
+                          <Separator orientation="vertical" />
+                          <Button
+                            variant="link"
+                            onClick={handleOptions("redirect", hash)}
+                          >
+                            Redirect
+                          </Button>
+                        </div>
+                      </div>{" "}
                     </HoverCardContent>
                   </HoverCard>
                   <Separator />

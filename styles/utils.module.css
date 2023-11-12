@@ -65,6 +65,13 @@
   margin-top: 2rem;
 }
 
+.headingMdlist {
+  text-align: center;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
 .borderCircle {
   border-radius: 9999px;
 }
