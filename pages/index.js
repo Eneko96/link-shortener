@@ -73,6 +73,11 @@ export default function Home({ data, url }) {
     }
   };
 
+  const handleRedirect = (event) => {
+    const hash = event.target.dataset.redirect;
+    window.open(hash, "_blank");
+  };
+
   return (
     <Layout home>
       <Head>
@@ -96,26 +101,33 @@ export default function Home({ data, url }) {
           </Button>
         </form>
       </section>
-      <section className={utilStyles.headingMd}>
-        <ScrollArea className="h-72 w-48 rounded-md border max-w-48">
+      <section>
+        <ScrollArea className="rounded-md border border-red">
           <div className="p-4">
-            <h4 className="mb-4 text-sm font-medium leading-none">
+            <h4 className="mb-4 text-center text-sm font-medium leading-none">
               Shortened links
             </h4>
             {data.map(({ hash, url: goTo }) => {
               return (
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Button variant="link">
-                      {url}/{hash}
-                    </Button>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-80">
-                    <div className="flex flex-col items-center justify-center">
-                      <p>to {goTo}</p>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
+                <>
+                  <HoverCard key={hash}>
+                    <HoverCardTrigger asChild>
+                      <Button
+                        variant="link"
+                        data-redirect={hash}
+                        onClick={handleRedirect}
+                      >
+                        {url}/{hash}
+                      </Button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="">
+                      <div className="flex flex-col items-center justify-center">
+                        <p>to {goTo}</p>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                  <Separator />
+                </>
               );
             })}
             {result.map((link) => (
