@@ -1,4 +1,5 @@
 import "../styles/global.css";
+import "../styles/alter.css";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "../components/theme-provider";
 

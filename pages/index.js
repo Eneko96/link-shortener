@@ -138,18 +138,18 @@ export default function Home({ data, url }) {
                           {url}/{hash}
                         </Button>
                       </HoverCardTrigger>
-                      <HoverCardContent className="">
+                      <HoverCardContent>
                         <div>
                           <div className="space-y-1">
                             <h4 className="text-sm font-medium leading-none">
                               Link to
                             </h4>
-                            <p className="text-sm text-muted-foreground mb-2">
+                            <p className="options-wrapper text-sm text-muted-foreground mb-2">
                               You didn't add any description
                             </p>
                           </div>
-                          <Separator className="my-4" />
-                          <div className="flex h-5 items-center my-2 justify-around space-x-4 text-sm">
+                          <Separator />
+                          <div className="flex h-5 items-center mt-2 space-x-4 text-sm">
                             <Button
                               variant="link"
                               onClick={handleOptions("copy", hash)}
