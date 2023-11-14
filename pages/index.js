@@ -144,12 +144,12 @@ export default function Home({ data, url }) {
                             <h4 className="text-sm font-medium leading-none">
                               Link to
                             </h4>
-                            <p className="options-wrapper text-sm text-muted-foreground mb-2">
+                            <p className="options-wrapper text-sm text-muted-foreground ">
                               You didn't add any description
                             </p>
                           </div>
-                          <Separator />
-                          <div className="flex h-5 items-center mt-2 space-x-4 text-sm">
+                          <Separator className="my-2" />
+                          <div className="flex h-5 items-center space-x-4 text-sm">
                             <Button
                               variant="link"
                               onClick={handleOptions("copy", hash)}
